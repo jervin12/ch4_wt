@@ -1,5 +1,13 @@
 # This file is app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
+  
+  # in movies_controller.rb
+  def create
+    @movie = Movie.create! movie_params
+    flash[:notice] = "#{@movie.title} was successfully created."
+    redirect_to movies_path
+  end
+  
   def index
     @movies = Movie.all
   end
@@ -15,4 +23,8 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.html.haml by default
   end
   
+  private
+  def movie_params
+    params.require(:movie).permit(:title, :description, :rating, :release_date)
+  end
 end
